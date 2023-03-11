@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique()->nullable();
-            $table->string('password')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->date('birth_date')->nullable();
+            $table->integer('win')->nullable();
+            $table->string('record')->nullable();
+
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('players');
     }
 };
