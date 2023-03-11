@@ -79,8 +79,8 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('token')->plainTextToken;
-            // $cookie = cookie('cookie_token', $token, 60 * 24);
-            return response(["token"=>$token], Response::HTTP_OK);//->withoutCookie($cookie);
+            $cookie = cookie('cookie_token', $token, 60 * 24);
+            return response(["token"=>$token], Response::HTTP_OK)->withoutCookie($cookie);
         } else {
             return response(["message"=> "Credenciales inválidas"],Response::HTTP_UNAUTHORIZED);
         }
@@ -100,28 +100,28 @@ class AuthController extends Controller
 
     public function userProfile(Request $request)
     {
-        // if (!auth()->check()) {
-        //     return response()->json([
-        //         "message" => "usuario ok",
-        //         "userData"=>auth()->user()
-        //     ],Response::HTTP_OK);
-        // } 
-        // else {
-        //     return response(["message"=> "dame el token"],Response::HTTP_UNAUTHORIZED);
-        // }
-
-        $user = Auth::user();
-        
-        if ($request->user()->tokenCan('user:get')) {
+        if (auth()->check()) {
             return response()->json([
-                'message' => 'Token de usuario válido.',
-                'user' => $user
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'Token de usuario no válido.',
-            ], 401);
+                "message" => "usuario ok",
+                "userData"=>auth()->user()
+            ],Response::HTTP_OK);
+        } 
+        else {
+            return response(["message"=> "dame el token"],Response::HTTP_UNAUTHORIZED);
         }
+
+        // $user = Auth::user();
+        
+        // if ($request->user()->tokenCan('user:get')) {
+        //     return response()->json([
+        //         'message' => 'Token de usuario válido.',
+        //         'user' => $user
+        //     ], 200);
+        // } else {
+        //     return response()->json([
+        //         'message' => 'Token de usuario no válido.',
+        //     ], 401);
+        // }
         
     }
 
