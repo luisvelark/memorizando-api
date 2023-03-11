@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->string('state_game')->nullable();
-            $table->string('game_time')->nullable();
+            $table->time('game_time')->nullable();
             $table->integer('hit_number')->nullable();
             $table->integer('num_attempt')->nullable();
             $table->integer('category_id')->nullable();
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('duration_id')->nullable();
 
 
-            $table->foreignId('player_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
