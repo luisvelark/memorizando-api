@@ -18,7 +18,6 @@ class AuthController extends Controller
             'name' => ['required','unique:users'],
             'password' => [
             'required',
-            'confirmed',
             'string',
             'min:8',
             'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/'
@@ -79,8 +78,8 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('token')->plainTextToken;
-            $cookie = cookie('cookie_token', $token, 60 * 24);
-            return response(["token"=>$token], Response::HTTP_OK)->withoutCookie($cookie);
+            // $cookie = cookie('cookie_token', $token, 60 * 24);
+            return response(["token"=>$token], Response::HTTP_OK);//->withoutCookie($cookie);
         } else {
             return response(["message"=> "Credenciales inválidas"],Response::HTTP_UNAUTHORIZED);
         }
@@ -100,15 +99,15 @@ class AuthController extends Controller
 
     public function userProfile(Request $request)
     {
-        if (auth()->check()) {
+        // if (auth()->check()) {
             return response()->json([
                 "message" => "usuario ok",
                 "userData"=>auth()->user()
             ],Response::HTTP_OK);
-        } 
-        else {
-            return response(["message"=> "dame el token"],Response::HTTP_UNAUTHORIZED);
-        }
+        // } 
+        // else {
+        //     return response(["message"=> "dame el token"],Response::HTTP_UNAUTHORIZED);
+        // }
 
         // $user = Auth::user();
         

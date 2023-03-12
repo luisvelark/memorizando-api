@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-// Route::group(["middleware"=>['auth:sanctum']], function(){
-//   Route::get("user-profile", [AuthController::class,"userProfile"]);
-
-// });
-Route::middleware('auth:sanctum')->group(function (){
+Route::group(["middleware"=>['auth:sanctum']], function(){
   Route::get("user-profile", [AuthController::class,"userProfile"]);
+
 });
+// Route::middleware('auth:sanctum')->group(function (){
+//   Route::get("user-profile", [AuthController::class,"userProfile"]);
+// });
 
 
 Route::post("register", [AuthController::class,"register"]);
